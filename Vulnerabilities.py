@@ -4,18 +4,20 @@ import json
 
 # Print functions are for debugging
 # List of keywords, using as tags for vulnerability searching
-list_keywords = [***REMOVED***]
+list_keywords = []
+anomali_apikey = ""
+ms_teams_webhook = ""
+days_relevancy = int()
 
-
-# Last 24 hours calculator
-last_24_hours = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%S')
+# Time relevancy hours calculator
+last_24_hours = (datetime.now() - timedelta(days=days_relevancy)).strftime('%Y-%m-%dT%H:%M:%S')
 
 list_appended_ids = []
 
 
 # Func for requesting Vulerability IDs
 def http_req_vulns(keyword):
-    headers = {'Authorization': 'apikey ***REMOVED***'}
+    headers = {'Authorization': f'apikey {anomali_apikey}'}
     response = requests.get(
         'https://api.threatstream.com/api/v1/threat_model_search/'
         '?limit=10&model_type=vulnerability&value={}&created_ts__gt={}'.format(keyword, last_24_hours), headers=headers)
@@ -25,7 +27,7 @@ def http_req_vulns(keyword):
 
 # Func for requesting full information about vulnerabilities
 def http_req_ids_full(data):
-    headers = {'Authorization': 'apikey ***REMOVED***'}
+    headers = {'Authorization': f'apikey {anomali_apikey}'}
     response = requests.get(
         'https://api.threatstream.com{}'.format(data), headers=headers)
     return response.json()
@@ -75,7 +77,7 @@ def teams_mes(data):
                     "facts": data}]
                 }
     response = requests.post(
-        '***REMOVED***', headers=headers, data=json.dumps(template))
+        ms_teams_webhook, headers=headers, data=json.dumps(template))
     print(response)
 
 
