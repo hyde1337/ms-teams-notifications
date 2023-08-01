@@ -9,7 +9,7 @@ Integration between Anomali and MS Teams to notify about recent news and vulnera
 
 ---
 ## Inputs
-Required inputs to **both components** file:
+Required inputs to **both components** files:
 
 **ms_teams_webhook: (str)** - MS Teams Webhook obtained from the messenger
 
